@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Top — Work Pipeline & Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f1f4f7;--surface:#fff;--ink:#12213a;--muted:#5b6b82;--line:#d6dde6;
+  --pri:#12213a;--pri-ink:#fff;--queue:#2f5bea;--wait:#e0a100;--rework:#8a4fd6;
+  --chip:#e4e9f0;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1524;--surface:#14223a;--ink:#e8eef7;--muted:#93a3bb;--line:#26364f;
+  --pri:#e8eef7;--pri-ink:#0c1524;--queue:#6c8cff;--wait:#f2b92e;--rework:#b48cf0;--chip:#1c2c46;}}
+:root[data-theme="dark"]{
+  --bg:#0c1524;--surface:#14223a;--ink:#e8eef7;--muted:#93a3bb;--line:#26364f;
+  --pri:#e8eef7;--pri-ink:#0c1524;--queue:#6c8cff;--wait:#f2b92e;--rework:#b48cf0;--chip:#1c2c46;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;font-size:16px}
+h1,h2,h3{font-family:"Bricolage Grotesque",Figtree,system-ui,sans-serif;line-height:1.1;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--queue);outline-offset:2px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0;gap:12px}
+nav b{font-family:"Bricolage Grotesque",sans-serif;font-size:1.25rem}
+nav div{display:flex;gap:18px;align-items:center;font-size:.95rem}
+nav a{text-decoration:none;color:var(--muted)}nav a:hover{color:var(--ink)}
+.theme{background:none;border:1px solid var(--line);color:var(--ink);border-radius:99px;padding:6px 12px;font:inherit;font-size:.85rem;cursor:pointer}
+.hero{padding:48px 0 40px}
+.hero h1{font-size:clamp(2.4rem,7vw,4.6rem);font-weight:700;letter-spacing:-.03em;max-width:15ch}
+.hero p{max-width:56ch;color:var(--muted);font-size:1.1rem;margin:18px 0 0}
+.strip{display:flex;gap:4px;margin-top:36px;height:64px}
+.strip button{flex:1;border:0;border-radius:6px;cursor:pointer;padding:0;position:relative;transition:transform .15s}
+.strip button:hover{transform:translateY(-4px)}
+.strip button[data-s=priority]{flex:2.2;background:var(--pri)}
+.strip button[data-s=queue]{background:var(--queue)}
+.strip button[data-s=wait]{background:var(--wait)}
+.strip button[data-s=rework]{background:var(--rework)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:14px;font-size:.9rem;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+section{padding:44px 0}
+section>.wrap>h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:6px}
+.sub{color:var(--muted);margin:0 0 28px;max-width:60ch}
+.board{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:16px;align-items:start}
+.lane h3{font-size:1.1rem;display:flex;justify-content:space-between;padding-bottom:10px;border-bottom:3px solid var(--c);margin-bottom:12px}
+.lane h3 span{color:var(--muted);font-family:Figtree,sans-serif;font-weight:500}
+.lane[data-s=priority]{--c:var(--pri)}.lane[data-s=queue]{--c:var(--queue)}
+.lane[data-s=wait]{--c:var(--wait)}.lane[data-s=rework]{--c:var(--rework)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:12px;scroll-margin-top:90px}
+.card.flash{animation:fl 1.4s}
+@keyframes fl{0%,60%{box-shadow:0 0 0 3px var(--queue)}100%{box-shadow:0 0 0 0 transparent}}
+.card h4{margin:0 0 4px;font:600 1rem Figtree,sans-serif}
+.card p{margin:0;color:var(--muted);font-size:.9rem}
+.lane[data-s=priority] .card{background:var(--pri);color:var(--pri-ink);border-color:var(--pri);padding:20px}
+.lane[data-s=priority] .card h4{font:700 1.3rem "Bricolage Grotesque",sans-serif}
+.lane[data-s=priority] .card p{color:inherit;opacity:.78;font-size:.95rem}
+.lane[data-s=priority] .rank{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--pri-ink);color:var(--pri);font-weight:700;font-size:.85rem;margin-bottom:10px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.filters button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:7px 16px;font:500 .9rem Figtree,sans-serif;cursor:pointer}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr) auto;gap:8px 24px;padding:20px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.row h3{font-size:1.25rem}
+.row .type{color:var(--muted);font-size:.88rem;margin-top:3px}
+.row p{margin:0;max-width:60ch}
+.pill{display:inline-flex;align-items:center;gap:7px;background:var(--chip);border-radius:99px;padding:4px 12px;font-size:.82rem;font-weight:500;white-space:nowrap}
+.pill i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.pg{margin-top:12px}
+.bar{height:8px;border-radius:99px;background:rgba(127,127,127,.25);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--f);border-radius:99px;transition:width .35s}
+.pm{display:flex;gap:10px;align-items:baseline;margin-top:6px;font-size:.82rem}
+.pm b{font-weight:600}.pm span{opacity:.75}
+.lane[data-s=priority] .bar i{background:var(--pri-ink)}
+.row .pg{max-width:440px}
+details{margin-top:10px;font-size:.88rem}
+summary{cursor:pointer;font-weight:600}
+.steps{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+.steps label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.steps input{margin-top:3px;accent-color:var(--c)}
+.lane[data-s=priority] .steps input{accent-color:var(--pri-ink)}
+.overall{margin-top:18px;font-weight:600}
+.tab{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);font:600 .95rem Figtree,sans-serif;padding:6px 2px;cursor:pointer}
+.tab[aria-current=page]{color:var(--ink);border-color:var(--ink)}
+body[data-view=portfolio] .hero,body[data-view=portfolio] #pipeline,body[data-view=portfolio] #all{display:none}
+body:not([data-view=portfolio]) #showcase{display:none}
+.cat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.work{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.plate{min-height:160px;padding:18px 20px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;gap:24px;background:linear-gradient(135deg,hsl(var(--h) 45% 28%),hsl(calc(var(--h) + 35) 50% 17%))}
+.pt{display:flex;justify-content:space-between;gap:10px;font-size:.85rem;opacity:.85}
+.plate b{font:700 1.6rem/1.1 "Bricolage Grotesque",Figtree,sans-serif;letter-spacing:-.02em}
+.wb{padding:18px 20px 20px;display:flex;flex-direction:column;gap:12px;flex:1}
+.wb p{margin:0}
+.wb ul{margin:0;padding-left:18px;color:var(--muted);font-size:.93rem}
+.wb li{margin-bottom:4px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{background:var(--chip);border-radius:6px;padding:3px 9px;font-size:.78rem}
+.stat{font-weight:600;font-size:.95rem;border-top:1px solid var(--line);padding-top:12px;margin-top:auto}
+@media (max-width:760px){.cat{grid-template-columns:1fr}}
+footer{padding:40px 0 56px;color:var(--muted);border-top:1px solid var(--line);font-size:.92rem}
+footer b{color:var(--ink)}
+@media (max-width:900px){.board{grid-template-columns:1fr 1fr}.lane[data-s=priority]{grid-column:1/-1}}
+@media (max-width:620px){.board{grid-template-columns:1fr}.row{grid-template-columns:1fr}nav div{gap:12px}.strip{height:52px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <b>Top</b>
+    <div><button class="tab" data-view="pipeline" type="button">Pipeline</button><button class="tab" data-view="portfolio" type="button">Portfolio</button><button class="theme" id="theme" type="button">Theme</button></div>
+  </nav>
+
+  <header class="hero">
+    <h1>Twelve projects, one clear order.</h1>
+    <p>I build websites and internal tools for Panyathip British International School in Vientiane. This is what I'm working on now, what's next, and what has shipped.</p>
+    <div class="strip" id="strip" aria-label="All projects by stage"></div>
+    <div class="legend">
+      <span><i style="background:var(--pri)"></i>Highest priority</span>
+      <span><i style="background:var(--queue)"></i>Up next</span>
+      <span><i style="background:var(--wait)"></i>Awaiting feedback</span>
+      <span><i style="background:var(--rework)"></i>Rework</span>
+    </div>
+    <div class="overall" id="overall"></div>
+  </header>
+</div>
+
+<section id="pipeline">
+  <div class="wrap">
+    <h2>Work pipeline</h2>
+    <p class="sub">Every project sits in one lane, with its own steps from start to launch. Open Steps on a card and tick what's done. The four on the left get my time first.</p>
+    <div class="board" id="board"></div>
+  </div>
+</section>
+
+<section id="all">
+  <div class="wrap">
+    <h2>All projects</h2>
+    <p class="sub">Every project in one list. Filter by stage.</p>
+    <div class="filters" id="filters"></div>
+    <div class="rows" id="rows"></div>
+  </div>
+</section>
+
+<section id="showcase">
+  <div class="wrap">
+    <h2>Portfolio</h2>
+    <p class="sub">Projects I've built and delivered for PBIS. <span id="showCount"></span></p>
+    <div class="filters" id="showFilters"></div>
+    <div class="cat" id="showGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><b>Top</b> — Marketing &amp; Media Team, Panyathip British International School (PBIS), Vientiane, Lao PDR</div>
+</footer>
+
+<script>
+/* Edit this list to update the whole site. status: priority | queue | wait | rework */
+const STAGES={
+  priority:{label:"Highest priority"},
+  queue:{label:"Up next"},
+  wait:{label:"Awaiting feedback"},
+  rework:{label:"Rework"}
+};
+const P=[
+  {n:"ST HUGHS Website",s:"priority",t:"Website",d:"A new website for ST HUGHS."},
+  {n:"PBIS Van Transport System",s:"priority",t:"Internal system",d:"Manage PBIS van transport in one place."},
+  {n:"PBIS Ticket Booking System",s:"priority",t:"Booking system",d:"Online ticket booking for PBIS events."},
+  {n:"Ms.Gift Website",s:"priority",t:"Website",d:"A website for Ms. Gift."},
+  {n:"PBIS Parent Onboarding Page",s:"queue",t:"Public page",d:"A guided page that helps new parents get started."},
+  {n:"PBIS Reminder System",s:"queue",t:"Internal system",d:"Automatic reminders for staff and families."},
+  {n:"PBIS Digital Assets",s:"queue",t:"Request form",d:"My personal request form for digital assets."},
+  {n:"HR Careers Enquiry",s:"wait",t:"Landing page + admin",d:"Careers page and enquiry handling for HR."},
+  {n:"Art & Media",s:"wait",t:"Website",d:"A showcase for the Art & Media programme."},
+  {n:"Book a Tour",s:"wait",t:"Public site",d:"Lets families book a school tour online."},
+  {n:"Open Day",s:"rework",t:"Event site",d:"Open Day site, being reworked."},
+  {n:"PBIS Website",s:"rework",t:"Main website",d:"The main PBIS website, being reworked."}
+];
+/* Steps per project: [steps already done at start, step list]. Starting progress is an estimate; tick boxes to correct it. */
+const WEB=["Brief & goals","Sitemap & wireframes","Visual design","Build pages","Add content & photos","Mobile & speed testing","Domain & hosting","Launch"];
+const FB=["Design","Build","Add content","Deploy","Send for feedback","Apply feedback","Final launch"];
+const RW=["List issues","Plan changes","Rebuild","Retest","Redeploy"];
+const STEPS={
+  "ST HUGHS Website":[4,WEB],
+  "PBIS Van Transport System":[4,["Requirements & routes","Data model","UI design","Build core features","Add content & photos","Admin & roles","Test with staff","Deploy","Train staff"]],
+  "PBIS Ticket Booking System":[4,["Requirements","Booking flow design","Build booking","Tickets & confirmation emails","Add content & photos","Admin dashboard","Test end to end","Deploy","Go live for first event"]],
+  "Ms.Gift Website":[4,WEB],
+  "PBIS Parent Onboarding Page":[0,["Content & forms","Flow design","Build page","Review with admissions","Deploy","Share with parents"]],
+  "PBIS Reminder System":[0,["Define triggers & audience","Message templates","Build scheduler","Test sends","Deploy","Monitor delivery"]],
+  "PBIS Digital Assets":[0,["Form fields","Build form","Connect to inbox or sheet","Test","Share link"]],
+  "HR Careers Enquiry":[5,FB],
+  "Art & Media":[5,FB],
+  "Book a Tour":[5,FB],
+  "Open Day":[1,RW],
+  "PBIS Website":[1,RW]
+};
+let ST;
+function load(){if(ST)return ST;try{ST=JSON.parse(localStorage.getItem("pl-v2")||"{}")}catch(e){ST={}}return ST}
+function save(){try{localStorage.setItem("pl-v2",JSON.stringify(ST))}catch(e){}}
+function doneSet(p){const s=load(),id=slug(p.n);if(!s[id])s[id]=Array.from({length:STEPS[p.n][0]},(_,i)=>i);return s[id]}
+function pct(p){return Math.round(doneSet(p).length/STEPS[p.n][1].length*100)}
+function nextStep(p){const d=doneSet(p),st=STEPS[p.n][1],i=st.findIndex((_,j)=>!d.includes(j));return i<0?"All steps done":"Next: "+st[i]}
+const FILL={priority:"pri",queue:"queue",wait:"wait",rework:"rework"};
+function prog(p){const v=pct(p);return `<div class="pg" data-pg="${slug(p.n)}" style="--f:var(--${FILL[p.s]})"><div class="bar" role="progressbar" aria-label="${esc(p.n)} progress" aria-valuenow="${v}" aria-valuemin="0" aria-valuemax="100"><i style="width:${v}%"></i></div><div class="pm"><b>${v}%</b><span>${esc(nextStep(p))}</span></div></div>`}
+function checklist(p){const d=doneSet(p),id=slug(p.n);return `<details><summary>Steps</summary><ul class="steps">${STEPS[p.n][1].map((s,j)=>`<li><label><input type="checkbox" data-p="${id}" data-i="${j}"${d.includes(j)?" checked":""}> ${esc(s)}</label></li>`).join("")}</ul></details>`}
+const $=id=>document.getElementById(id);
+const slug=n=>"p-"+n.toLowerCase().replace(/[^a-z0-9]+/g,"-");
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+
+$("strip").innerHTML=P.map(p=>`<button type="button" data-s="${p.s}" data-id="${slug(p.n)}" title="${esc(p.n)}" aria-label="${esc(p.n)}: ${STAGES[p.s].label}"></button>`).join("");
+$("strip").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  const c=$("c-"+b.dataset.id);if(!c)return;
+  c.scrollIntoView({behavior:"smooth",block:"center"});
+  c.classList.remove("flash");void c.offsetWidth;c.classList.add("flash");
+});
+
+$("board").innerHTML=Object.keys(STAGES).map(k=>{
+  const list=P.filter(p=>p.s===k);
+  return `<div class="lane" data-s="${k}"><h3>${STAGES[k].label}<span>${list.length}</span></h3>`+
+  list.map((p,i)=>`<article class="card" id="c-${slug(p.n)}">${k==="priority"?`<div class="rank" aria-label="Priority ${i+1}">${i+1}</div>`:""}<h4>${esc(p.n)}</h4><p>${esc(p.d)}</p>${prog(p)}${checklist(p)}</article>`).join("")+`</div>`;
+}).join("");
+
+let cur="all";
+function renderRows(){
+  $("rows").innerHTML=P.filter(p=>cur==="all"||p.s===cur).map(p=>
+    `<div class="row"><div><h3>${esc(p.n)}</h3><div class="type">${esc(p.t)}</div></div><div><p>${esc(p.d)}</p>${prog(p)}</div><span class="pill" style="--c:var(--${p.s==="priority"?"pri":p.s==="queue"?"queue":p.s==="wait"?"wait":"rework"})"><i></i>${STAGES[p.s].label}</span></div>`).join("");
+}
+function renderFilters(){
+  const opts=[["all","All ("+P.length+")"]].concat(Object.keys(STAGES).map(k=>[k,STAGES[k].label]));
+  $("filters").innerHTML=opts.map(o=>`<button type="button" data-f="${o[0]}" aria-pressed="${cur===o[0]}">${o[1]}</button>`).join("");
+}
+$("filters").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  cur=b.dataset.f;renderFilters();renderRows();
+});
+renderFilters();renderRows();
+
+function refreshAll(){
+  P.forEach(p=>{document.querySelectorAll('[data-pg="'+slug(p.n)+'"]').forEach(el=>{el.outerHTML=prog(p)})});
+  const t=Math.round(P.reduce((a,p)=>a+pct(p),0)/P.length);
+  $("overall").textContent="Overall progress: "+t+"% across "+P.length+" projects";
+}
+$("board").addEventListener("change",e=>{
+  const c=e.target;if(!c.dataset.p)return;
+  const p=P.find(x=>slug(x.n)===c.dataset.p),d=doneSet(p),i=+c.dataset.i,k=d.indexOf(i);
+  if(c.checked&&k<0)d.push(i);if(!c.checked&&k>=0)d.splice(k,1);
+  save();refreshAll();
+});
+refreshAll();
+
+/* Completed projects for the Portfolio tab. Edit this list to update the catalogue. k: ev | tool | camp */
+const SHOW=[
+  {n:"Legacy Night RSVP System",k:"ev",cat:"Event system",when:"25 Sep 2026",h:160,d:"Guest registration, approvals and emails for the PBIS 25th Anniversary Legacy Night gala at Holiday Inn & Suites Vientiane.",b:["Public RSVP page that gives every guest a Track ID on all emails","Admin dashboard with bulk approval that sends passes one at a time, with pause and retry","Drag-and-drop guest categories board and an auto-built All Attendees sheet"],t:["HTML, CSS, JS","Google Apps Script","Google Sheets"],s:"230+ attendees registered"},
+  {n:"Legacy Night QR Scanning + Touch Screen Floorplan",k:"ev",cat:"Event system",when:"25 Sep 2026",h:215,d:"The on-the-night tools for Legacy Night: guest check-in and a live seating chart.",b:["Self-service kiosk with QR check-in, including hardware scanner support","Guest-facing seating chart built for a 65-inch touchscreen","Interactive floor plan with drag-and-drop tables and guests"],t:["JavaScript","QR scanning","Google Sheets"],s:"Built for a 65-inch touchscreen"},
+  {n:"Legacy Night Guest Arrival Screen",k:"ev",cat:"Event system",when:"25 Sep 2026",h:190,d:"The welcome screen guests see as they check in at Legacy Night.",b:["Shows each guest's own seat number after their QR code is scanned","Stays on screen for 20 seconds, with a Continue button for the next guest","Refreshes quickly so scans appear almost straight away"],t:["JavaScript","QR scanning","Google Sheets"],s:"20 seconds on screen per guest"},
+  {n:"Parent Appreciation Night",k:"ev",cat:"Event system",when:"11 Sep 2026",h:35,d:"Event management app for the PBIS 25th Anniversary Parent Appreciation Night, from RSVP to check-in to feedback.",b:["Entry pass emails with an individual QR code for every seat","Role-based dashboard for admissions, events, marketing and directors","13-question guest survey with an NPS score, shown on a 65-inch screen"],t:["HTML, CSS, JS","Google Apps Script","Google Sheets"],s:"500 guest capacity, 3 check-in lanes"},
+  {n:"Open Day 2026",k:"ev",cat:"Event system",when:"2026, rework planned",h:265,d:"Registration site and staff dashboard for school tour requests.",b:["Parent registration form that supports several children per family","Dashboard for 14 staff with separate admissions and marketing roles","Approve, decline, reschedule and reminder emails sent from the dashboard"],t:["HTML, CSS, JS","Google Apps Script","GitHub Pages"],s:"14 staff users"},
+  {n:"ArtMedia Request Portal",k:"tool",cat:"Internal tool",when:"",h:345,d:"A media request system for the Art & Media studio. Staff submit requests and the creative team delivers.",b:["Request form with a Track ID and a live Submitted, Reviewed, Production, Delivered tracker","Admin dashboard with table and Kanban views, bulk assign and final deliverables sending","Branded emails at every stage"],t:["Three.js","GSAP","Google Apps Script"],s:"Used by a 10-person creative team"},
+];
+const KINDS={all:"All",ev:"Event systems",tool:"Internal tools"};
+let sk="all";
+function renderShow(){
+  const list=SHOW.filter(w=>sk==="all"||w.k===sk);
+  $("showCount").textContent=SHOW.length+" completed projects.";
+  $("showFilters").innerHTML=Object.keys(KINDS).map(k=>`<button type="button" data-k="${k}" aria-pressed="${sk===k}">${KINDS[k]}</button>`).join("");
+  $("showGrid").innerHTML=list.map(w=>`<article class="work"><div class="plate" style="--h:${w.h}"><div class="pt"><span>${esc(w.cat)}</span><span>${esc(w.when)}</span></div><b>${esc(w.n)}</b></div><div class="wb"><p>${esc(w.d)}</p><ul>${w.b.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><div class="tags">${w.t.map(x=>`<span>${esc(x)}</span>`).join("")}</div>${w.s?`<div class="stat">${esc(w.s)}</div>`:""}</div></article>`).join("");
+}
+$("showFilters").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;sk=b.dataset.k;renderShow()});
+renderShow();
+
+function setView(v){
+  document.body.dataset.view=v;
+  document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-current",b.dataset.view===v?"page":"false"));
+  try{history.replaceState(null,"","#"+v)}catch(e){}
+}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{setView(b.dataset.view);window.scrollTo(0,0)}));
+setView(location.hash==="#portfolio"?"portfolio":"pipeline");
+
+$("theme").addEventListener("click",()=>{
+  const r=document.documentElement;
+  const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+  r.dataset.theme=dark?"light":"dark";
+});
+</script>
+</body>
+</html>
